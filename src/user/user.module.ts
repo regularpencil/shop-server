@@ -7,7 +7,7 @@ import { User, UserSchema } from '../schemas/user.schema';
 import { MailModule } from 'src/mail/mail.module';
 import { Order, OrderSchema } from 'src/schemas/order.schema';
 import { Chat, ChatSchema } from 'src/schemas/chat.schema';
-import { Product, ProductSchema } from 'src/schemas/productSchema.schema';
+import { Product, ProductSchema } from 'src/schemas/product.schema';
 
 @Module({
     imports: [

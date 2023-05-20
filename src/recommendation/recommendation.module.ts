@@ -3,7 +3,7 @@ import { RecommendationController } from './recommendation.controller';
 import { RecommendationService } from './recommendation.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/user.schema';
-import { Product, ProductSchema } from 'src/schemas/productSchema.schema';
+import { Product, ProductSchema } from 'src/schemas/product.schema';
 
 @Module({
     imports: [

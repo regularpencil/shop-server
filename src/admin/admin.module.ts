@@ -7,7 +7,7 @@ import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { CategoryModule } from 'src/category/category.module';
 import { City, CitySchema } from 'src/schemas/city.schema';
-import { Product, ProductSchema } from 'src/schemas/productSchema.schema';
+import { Product, ProductSchema } from 'src/schemas/product.schema';
 
 @Module({
     imports: [

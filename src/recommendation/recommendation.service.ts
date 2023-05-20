@@ -7,7 +7,7 @@ import { Model } from "mongoose";
 import { User, UserDocument } from "src/schemas/user.schema";
 import * as fs from "fs"
 import * as math from "mathjs"
-import { Product, ProductDocument } from "src/schemas/productSchema.schema";
+import { Product, ProductDocument } from "src/schemas/product.schema";
 @Injectable()
 export class RecommendationService {
     constructor(

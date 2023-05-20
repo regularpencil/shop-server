@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import { Order, OrderDocument } from "src/schemas/order.schema";
 import { User, UserDocument } from "src/schemas/user.schema";
 import { AddOrderDto } from "./dto/add-order.dto";
-import { Product, ProductDocument } from "src/schemas/productSchema.schema";
+import { Product, ProductDocument } from "src/schemas/product.schema";
 
 @Injectable()
 export class OrderService {
