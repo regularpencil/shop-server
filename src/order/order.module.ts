@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Order, OrderSchema } from 'src/schemas/order.schema';
+import { Order, OrderSchema } from '../schemas/order.schema';
 import { OrderService } from './order.service';
-import { User, UserSchema } from 'src/schemas/user.schema';
+import { User, UserSchema } from '../schemas/user.schema';
 import { OrderController } from './order.controller';
-import { StatisticModule } from 'src/statistic/statistic.module';
-import { Product, ProductSchema } from 'src/schemas/product.schema';
+import { StatisticModule } from '../statistic/statistic.module';
+import { Product, ProductSchema } from '../schemas/product.schema';
 
 @Module({
     imports: [

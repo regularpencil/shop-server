@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { AdminService } from "./admin.service";
-import { CategoryService } from "src/category/category.service";
+import { CategoryService } from "../category/category.service";
 
 interface QueryDto {
     name: string,

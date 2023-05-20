@@ -3,7 +3,7 @@ import { StatisticController } from './statistic.controller';
 import { StatisticService } from './statistic.service';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { Statistic, StatisticSchema } from 'src/schemas/statisticSchema.schema';
+import { Statistic, StatisticSchema } from '../schemas/statisticSchema.schema';
 
 @Module({
     imports: [

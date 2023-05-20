@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Filter, FilterSchema } from 'src/schemas/filter.schema';
-import { Order, OrderSchema } from 'src/schemas/order.schema';
-import { Statistic, StatisticSchema } from 'src/schemas/statisticSchema.schema';
+import { Filter, FilterSchema } from '../schemas/filter.schema';
+import { Order, OrderSchema } from '../schemas/order.schema';
+import { Statistic, StatisticSchema } from '../schemas/statisticSchema.schema';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
-import { CategoryModule } from 'src/category/category.module';
-import { City, CitySchema } from 'src/schemas/city.schema';
-import { Product, ProductSchema } from 'src/schemas/product.schema';
+import { CategoryModule } from '../category/category.module';
+import { City, CitySchema } from '../schemas/city.schema';
+import { Product, ProductSchema } from '../schemas/product.schema';
 
 @Module({
     imports: [

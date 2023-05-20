@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Redirect } from "@nestjs/common";
-import { MailService } from "src/mail/mail.service";
+import { MailService } from "../mail/mail.service";
 import { AuthService } from "./auth.service";
 import { LoginUserDto } from "./dto/login-user.dto";
 import { RegistrationUserDto } from "./dto/registration-user.dto";

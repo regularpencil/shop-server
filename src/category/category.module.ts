@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Filter, FilterSchema } from 'src/schemas/filter.schema';
+import { Filter, FilterSchema } from '../schemas/filter.schema';
 import { CategoryService } from './category.service';
 
 @Module({

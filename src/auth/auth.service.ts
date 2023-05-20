@@ -2,10 +2,10 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 import { RegistrationUserDto } from "./dto/registration-user.dto";
 import { HttpException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { User, UserDocument } from "src/schemas/user.schema";
+import { User, UserDocument } from "../schemas/user.schema";
 import { Model } from "mongoose";
 import { LoginUserDto } from "./dto/login-user.dto";
-import { Chat, ChatDocument } from "src/schemas/chat.schema";
+import { Chat, ChatDocument } from "../schemas/chat.schema";
 import { JwtService } from "@nestjs/jwt/dist";
 import * as bcrypt from 'bcrypt';
 import * as uuid from 'uuid';
@@ -64,7 +64,6 @@ export class AuthService {
         const user = await this.userModel.findOne({ email: dto.email });
 
         if (!user) {
-            console.log("asdasdas");
             return new HttpException("Неверный логин или пароль", HttpStatus.BAD_REQUEST);
         }
 
