@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 
-export type BadgeDocument = Badge & Document;
+export type ProductDocument = Product & Document;
 
 type ProductParametersType = {
     parameterName: string,
@@ -9,7 +9,7 @@ type ProductParametersType = {
 }
 
 @Schema()
-export class Badge {
+export class Product {
     @Prop()
     id: number
 
@@ -38,4 +38,4 @@ export class Badge {
     category: string
 }
 
-export const BadgeSchema = SchemaFactory.createForClass(Badge);
+export const ProductSchema = SchemaFactory.createForClass(Product);

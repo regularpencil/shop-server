@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Badge, BadgeDocument } from 'src/schemas/badge.shema';
+import { Product, ProductDocument } from 'src/schemas/productSchema';
 
 @Injectable()
 export class BadgeService {
-    constructor(@InjectModel(Badge.name) private badgeModel: Model<BadgeDocument>) { }
+    constructor(@InjectModel(Product.name) private badgeModel: Model<ProductDocument>) { }
 
     async getBadges() {
         const badges = await this.badgeModel.find();

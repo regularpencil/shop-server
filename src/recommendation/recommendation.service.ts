@@ -3,15 +3,15 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 import workerThreadFilePath from '../workers/config';
 import { Worker } from 'worker_threads';
 import { InjectModel } from "@nestjs/mongoose";
-import { Badge, BadgeDocument } from "src/schemas/badge.shema";
 import { Model } from "mongoose";
 import { User, UserDocument } from "src/schemas/user.schema";
 import * as fs from "fs"
 import * as math from "mathjs"
+import { Product, ProductDocument } from "src/schemas/productSchema";
 @Injectable()
 export class RecommendationService {
     constructor(
-      @InjectModel(Badge.name) private badgeModel: Model<BadgeDocument>,
+      @InjectModel(Product.name) private badgeModel: Model<ProductDocument>,
       @InjectModel(User.name) private userModel: Model<UserDocument>,
 
     ) {}

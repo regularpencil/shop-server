@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Badge, BadgeSchema } from 'src/schemas/badge.shema';
 import { BadgeController } from './badges.controller';
 import { BadgeService } from './badges.service';
+import { Product, ProductSchema } from 'src/schemas/productSchema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Badge.name, schema: BadgeSchema }
+      { name: Product.name, schema: ProductSchema }
     ])
   ],
   controllers: [BadgeController],

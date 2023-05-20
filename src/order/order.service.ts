@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import { Order, OrderDocument } from "src/schemas/order.schema";
 import { User, UserDocument } from "src/schemas/user.schema";
 import { AddOrderDto } from "./dto/add-order.dto";
-import { Badge, BadgeDocument } from "src/schemas/badge.shema";
+import { Product, ProductDocument } from "src/schemas/productSchema";
 
 @Injectable()
 export class OrderService {
@@ -12,7 +12,7 @@ export class OrderService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
         @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
-        @InjectModel(Badge.name) private badgeModel: Model<BadgeDocument>,
+        @InjectModel(Product.name) private badgeModel: Model<ProductDocument>,
     ) {}
 
     async addOrder(dto: AddOrderDto) {

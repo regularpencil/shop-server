@@ -9,14 +9,14 @@ import * as bcrypt from 'bcrypt';
 import { RegistrationUserDto } from "./dto/registration-user.dto";
 import * as uuid from 'uuid';
 import { UpdateSettingsDto } from "./dto/update-settings.dto";
-import { Badge, BadgeDocument } from "src/schemas/badge.shema";
+import { Product, ProductDocument } from "src/schemas/productSchema";
 
 @Injectable()
 export class UserService {
 
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
-        @InjectModel(Badge.name) private badgeModel: Model<BadgeDocument>,
+        @InjectModel(Product.name) private badgeModel: Model<ProductDocument>,
     ) {}
 
     async registration(dto: RegistrationUserDto) {

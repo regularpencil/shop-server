@@ -6,15 +6,15 @@ import { UserService } from './user.service';
 import { User, UserSchema } from '../schemas/user.schema';
 import { MailModule } from 'src/mail/mail.module';
 import { Order, OrderSchema } from 'src/schemas/order.schema';
-import { Badge, BadgeSchema } from 'src/schemas/badge.shema';
 import { Chat, ChatSchema } from 'src/schemas/chat.schema';
+import { Product, ProductSchema } from 'src/schemas/productSchema';
 
 @Module({
     imports: [
         MongooseModule.forFeature([
             { name: User.name, schema: UserSchema },
             { name: Order.name, schema: OrderSchema},
-            { name: Badge.name, schema: BadgeSchema},
+            { name: Product.name, schema: ProductSchema},
             { name: Chat.name, schema: ChatSchema},
         ]),
         MailModule,

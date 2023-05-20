@@ -1,18 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Badge, BadgeDocument } from "src/schemas/badge.shema";
 import { ensureDir, writeFile, remove } from 'fs-extra';
-import { Statistic, StatisticDocument } from "src/schemas/statisticSchema";
-import { Filter, FilterDocument } from "src/schemas/filter.schema";
 import { City, CityDocument } from "src/schemas/city.schema";
+import { Product, ProductDocument } from "src/schemas/productSchema";
 const uploadFolder = `uploads/images`;
 @Injectable()
 export class AdminService {
     constructor(
-        @InjectModel(Badge.name) private badgeModel: Model<BadgeDocument>,
-        @InjectModel(Statistic.name) private statisticModel: Model<StatisticDocument>,
-        @InjectModel(Filter.name) private filterModel: Model<FilterDocument>,
+        @InjectModel(Product.name) private badgeModel: Model<ProductDocument>,
         @InjectModel(City.name) private cityModel: Model<CityDocument>,
     ) { }
 
