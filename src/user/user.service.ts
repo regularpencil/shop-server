@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { RegistrationUserDto } from "./dto/registration-user.dto";
 import * as uuid from 'uuid';
 import { UpdateSettingsDto } from "./dto/update-settings.dto";
-import { Product, ProductDocument } from "src/schemas/productSchema";
+import { Product, ProductDocument } from "src/schemas/productSchema.schema";
 
 @Injectable()
 export class UserService {

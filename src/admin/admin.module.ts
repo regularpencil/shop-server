@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Filter, FilterSchema } from 'src/schemas/filter.schema';
 import { Order, OrderSchema } from 'src/schemas/order.schema';
-import { Statistic, StatisticSchema } from 'src/schemas/statisticSchema';
+import { Statistic, StatisticSchema } from 'src/schemas/statisticSchema.schema';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { CategoryModule } from 'src/category/category.module';
 import { City, CitySchema } from 'src/schemas/city.schema';
-import { Product, ProductSchema } from 'src/schemas/productSchema';
+import { Product, ProductSchema } from 'src/schemas/productSchema.schema';
 
 @Module({
     imports: [

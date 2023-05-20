@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { ensureDir, writeFile, remove } from 'fs-extra';
 import { City, CityDocument } from "src/schemas/city.schema";
-import { Product, ProductDocument } from "src/schemas/productSchema";
+import { Product, ProductDocument } from "src/schemas/productSchema.schema";
 const uploadFolder = `uploads/images`;
 @Injectable()
 export class AdminService {

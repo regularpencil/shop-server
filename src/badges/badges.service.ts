@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product, ProductDocument } from 'src/schemas/productSchema';
+import { Product, ProductDocument } from 'src/schemas/productSchema.schema';
 
 @Injectable()
 export class BadgeService {
