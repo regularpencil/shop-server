@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { Review, ReviewDocument } from 'src/schemas/review.schema';
+import { Review, ReviewDocument } from '../schemas/review.schema';
 import { SendReviewDto } from './dto/send-review.dto';
 import { InjectModel } from '@nestjs/mongoose';
 
