@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Put, Redirect } from "@nestjs/commo
 import { MailService } from "../mail/mail.service";
 import { AuthService } from "./auth.service";
 import { LoginUserDto } from "./dto/login-user.dto";
-import { RegistrationUserDto } from "./dto/registration-user.dto";
+import { CreateUserDto } from "./dto/create-user.dto";
 
 @Controller('api/auth')
 export class AuthController {
@@ -12,7 +12,7 @@ export class AuthController {
     ) { }
 
     @Post('/registration')
-    async registration(@Body() registrationUserDto: RegistrationUserDto) {
+    async registration(@Body() registrationUserDto: CreateUserDto) {
         const user = await this.authService.registration(registrationUserDto);
 
         if (user) {

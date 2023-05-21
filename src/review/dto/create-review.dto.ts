@@ -1,4 +1,4 @@
-export class SendReviewDto {
+export class CreateReviewDto {
   productId: string
   userName: string
   message: string

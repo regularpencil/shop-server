@@ -4,8 +4,9 @@ import { AppModule } from '../app.module';
 
 import * as math from "mathjs";
 import * as fs from "fs"
-function reduceMatrices(matrix) {
-  let rank = 3
+import * as path from 'path';
+
+function reduceMatrices(matrix, rank) {
   const R = JSON.parse(JSON.stringify(matrix));
   const reducedU = [];
 
@@ -89,7 +90,6 @@ function createMatrix(goods, users) {
             }
         }
     }
-    console.log(matrix);
     return matrix;
 }
 
@@ -100,8 +100,8 @@ function calculateUV(R) {
   const zeroIndexes = []
   const nonZero = calculateNonZero(R, nonZeroIndexes, zeroIndexes);
   const average = calculateAverage(R, nonZero);
-  
-  const {reducedU, reducedV} = reduceMatrices(R);
+  const rank = 3;
+  const {reducedU, reducedV} = reduceMatrices(R, rank);
   
   fillUV(reducedU, reducedV, average);
 
@@ -111,43 +111,34 @@ function calculateUV(R) {
   let step = 0.01;
   let rmse: any = 0;
   let oldRmse = 0;
-  let threshols = 0.0001;
   let iters = 0;
   do{
       oldRmse = rmse;
       rmse = 0;
-      console.log(reducedU);
-      console.log(reducedV);
-      //for(let p = 0; p < 500; p++){
-        let choice = Math.floor(Math.random() * (max - min) + min);
-        let ij = nonZeroIndexes[choice];
-        for(let k = 0; k < 3; k++) {
-            reducedU[ij[0]][k] = reducedU[ij[0]][k] + step * (
-                ((R[ij[0]][ij[1]] - math.multiply(reducedU[ij[0]], math.transpose(reducedV)[ij[1]])) * reducedV[k][ij[1]]) - lambda_reg * reducedU[ij[0]][k]
-            )
-            
-            reducedV[k][ij[1]] = reducedV[k][ij[1]] + step * (
-                ((R[ij[0]][ij[1]] - math.multiply(reducedU[ij[0]], math.transpose(reducedV)[ij[1]])) * reducedU[ij[0]][k]) - lambda_reg * reducedV[k][ij[1]]
-            )
-        }
-      //}
+
+      let choice = Math.floor(Math.random() * (max - min) + min);
+      let ij = nonZeroIndexes[choice];
+      for(let k = 0; k < rank; k++) {
+        reducedU[ij[0]][k] = reducedU[ij[0]][k] + step * (
+            ((R[ij[0]][ij[1]] - math.multiply(reducedU[ij[0]], math.transpose(reducedV)[ij[1]])) * reducedV[k][ij[1]]) - lambda_reg * reducedU[ij[0]][k]
+        )
+        
+        reducedV[k][ij[1]] = reducedV[k][ij[1]] + step * (
+            ((R[ij[0]][ij[1]] - math.multiply(reducedU[ij[0]], math.transpose(reducedV)[ij[1]])) * reducedU[ij[0]][k]) - lambda_reg * reducedV[k][ij[1]]
+        )
+      }
       
       for(let l = 0; l < nonZeroIndexes.length; l++) {
-          let i = nonZeroIndexes[l][0];
-          let j = nonZeroIndexes[l][1];
+          const i = nonZeroIndexes[l][0];
+          const j = nonZeroIndexes[l][1];
           rmse += Math.pow(R[i][j] - math.multiply(reducedU[i], math.transpose(reducedV)[j]), 2);
       }
       rmse /= nonZero;
       rmse = math.sqrt(rmse);
-
-      if(rmse > oldRmse - threshols) {
-          step *= 0.66;
-          threshols *= 0.5;
-      }
       iters++;
-  } while(math.abs(oldRmse - rmse) > 0.00001 && rmse > 0.7 && iters < 10000)
-  console.log(math.multiply(reducedU, reducedV));
-  fs.writeFileSync("./st.json", JSON.stringify({U: reducedU, V: reducedV}));
+  } while(math.abs(oldRmse - rmse) > 0.000001 && rmse > 0.5 && iters < 100000)
+  const filePath = path.join(process.cwd(), 'st.json');
+  fs.writeFileSync(filePath, JSON.stringify({U: reducedU, V: reducedV}));
 }
 
 async function run() {

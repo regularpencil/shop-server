@@ -5,7 +5,6 @@ export class ImageController {
     @Get("/uploads/images/:filename")
     async getFile(@Param("filename") filename: string, @Res() res: any) {
         const rootDirectory = path.join(process.cwd(), 'uploads/images');
-        console.log(rootDirectory);
         res.sendFile(filename, { root: rootDirectory });
     }
 }

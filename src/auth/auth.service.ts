@@ -1,5 +1,4 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { RegistrationUserDto } from "./dto/registration-user.dto";
 import { HttpException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { User, UserDocument } from "../schemas/user.schema";
@@ -9,6 +8,7 @@ import { Chat, ChatDocument } from "../schemas/chat.schema";
 import { JwtService } from "@nestjs/jwt/dist";
 import * as bcrypt from 'bcrypt';
 import * as uuid from 'uuid';
+import { CreateUserDto } from "./dto/create-user.dto";
 
 @Injectable()
 export class AuthService {
@@ -18,7 +18,7 @@ export class AuthService {
         private jwtService: JwtService,
     ) { }
 
-    async registration(dto: RegistrationUserDto) {
+    async registration(dto: CreateUserDto) {
         const candidate = await this.userModel.findOne({ email: dto.email });
 
         if (candidate) {

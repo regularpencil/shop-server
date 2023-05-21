@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Review, ReviewDocument } from '../schemas/review.schema';
-import { SendReviewDto } from './dto/send-review.dto';
+import { CreateReviewDto } from './dto/create-review.dto';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class ReviewService {
         return reviews.reviews;
     }
 
-    async sendReview(sendReviewDto: SendReviewDto) {
+    async sendReview(sendReviewDto: CreateReviewDto) {
         const reviews = await this.reviewModel.findOne({productId: sendReviewDto.productId});
         const date = new Date().toLocaleString('ru', {
             month: 'long',

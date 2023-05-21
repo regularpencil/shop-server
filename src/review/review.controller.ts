@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ReviewService } from './review.service';
-import { SendReviewDto } from './dto/send-review.dto';
+import { CreateReviewDto } from './dto/create-review.dto';
 
 @Controller('api/reviews')
 export class ReviewController {
@@ -12,7 +12,7 @@ export class ReviewController {
     }
 
     @Post()
-    sendReview(@Body() sendReviewDto: SendReviewDto) {
+    sendReview(@Body() sendReviewDto: CreateReviewDto) {
         return this.reviewService.sendReview(sendReviewDto);
     }
     
