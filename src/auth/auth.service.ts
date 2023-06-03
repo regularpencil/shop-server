@@ -9,7 +9,7 @@ import { JwtService } from "@nestjs/jwt/dist";
 import * as bcrypt from 'bcrypt';
 import * as uuid from 'uuid';
 import { CreateUserDto } from "./dto/create-user.dto";
-import { Token, TokenDocument } from "src/schemas/token.schema";
+import { Token, TokenDocument } from "../schemas/token.schema";
 
 
 @Injectable()
