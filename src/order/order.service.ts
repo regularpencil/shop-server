@@ -12,36 +12,40 @@ export class OrderService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
         @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
-        @InjectModel(Product.name) private badgeModel: Model<ProductDocument>,
+        @InjectModel(Product.name) private productModel: Model<ProductDocument>,
     ) {}
 
-    async addOrder(dto: AddOrderDto) {
+    async addOrder(addOrderDto: AddOrderDto) {
        
-        await this.orderModel.create(dto);
-        const {grades} = await this.userModel.findOne({email: dto.userEmail}, {_id: false, grades: true});
+        await this.orderModel.create(addOrderDto);
+        
+        const {grades} = await this.userModel.findOne({email: addOrderDto.userEmail}, {_id: false, grades: true});
 
-        for(let i = 0; i < dto.goods.length; i++) {
+        for(let i = 0; i < addOrderDto.goods.length; i++) {
             let founded = false;
             for(let j = 0; j < grades.length; j++) {
-                if(grades[j].productId === dto.goods[i]._id) {
+                if(grades[j].productId === addOrderDto.goods[i]._id) {
                     grades[j].grade = 6;
                     founded = true;
                     break;
                 }
             }
 
-            await this.badgeModel.findOneAndUpdate({_id: dto.goods[i]._id}, {$inc:{purchases: dto.goods[i].count}});
+            await this.productModel.findOneAndUpdate(
+                {_id: addOrderDto.goods[i]._id},
+                {$inc:{purchases: addOrderDto.goods[i].count}}
+            );
 
             if(!founded) {
-                grades.push({productId: dto.goods[i]._id, grade: 6});
+                grades.push({productId: addOrderDto.goods[i]._id, grade: 6});
             }
         }
 
-        await this.userModel.findOneAndUpdate({email: dto.userEmail}, {$set:{grades}})
+        await this.userModel.findOneAndUpdate({email: addOrderDto.userEmail}, {$set:{grades}})
         
         const userOrders = await this.orderModel.find({
           $and: [
-            {userEmail: dto.userEmail},
+            {userEmail: addOrderDto.userEmail},
             {status:{$ne: "Отменён"}}
           ]
         });
@@ -67,6 +71,10 @@ export class OrderService {
     async getOrders() {
         return await this.orderModel.find();
     }
+
+    async getOrderById(orderId: string) {
+        return await this.orderModel.findOne({_id: orderId});
+    } 
 
     async getOrdersByStatus(status: string) {
         return await this.orderModel.find({status});

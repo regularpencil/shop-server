@@ -23,9 +23,6 @@ export class User {
     role: string
 
     @Prop()
-    phoneNumber: string
-
-    @Prop()
     isActivated: boolean
 
     @Prop()

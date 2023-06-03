@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpCode, HttpStatus, Injectable } from "@nestjs/common";
 import { HttpException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { User, UserDocument } from "../schemas/user.schema";
@@ -9,28 +9,31 @@ import { JwtService } from "@nestjs/jwt/dist";
 import * as bcrypt from 'bcrypt';
 import * as uuid from 'uuid';
 import { CreateUserDto } from "./dto/create-user.dto";
+import { Token, TokenDocument } from "src/schemas/token.schema";
+
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
         @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
+        @InjectModel(Token.name) private tokenModel: Model<TokenDocument>,
         private jwtService: JwtService,
     ) { }
 
-    async registration(dto: CreateUserDto) {
-        const candidate = await this.userModel.findOne({ email: dto.email });
+    async registration(createUserDto: CreateUserDto) {
+        const candidate = await this.userModel.findOne({ email: createUserDto.email });
 
         if (candidate) {
             throw new HttpException("Пользователь с таким email уже существует", 460);
         }
 
-        const hashPassword = await bcrypt.hash(dto.password, 3);
+        const hashPassword = await bcrypt.hash(createUserDto.password, 3);
         const activationLink = uuid.v4();
 
         const user = await this.userModel.create({
-            name: dto.name,
-            email: dto.email,
+            name: createUserDto.name,
+            email: createUserDto.email,
             password: hashPassword,
             activationLink,
             role: 'user',
@@ -40,27 +43,53 @@ export class AuthService {
         });
 
         if(user) {
-            await this.chatModel.create({userEmail: dto.email, chatName:"Тех. поддержка", messages: []})
-            await this.chatModel.create({userEmail: dto.email, chatName:"Заказы", messages: []})
+            await this.chatModel.create({userEmail: createUserDto.email, chatName:"Тех. поддержка", messages: []})
+            await this.chatModel.create({userEmail: createUserDto.email, chatName:"Заказы", messages: []})
         }
 
         return user
     }
 
-    private async generateToken(user) {
-        const payload = {email: user.email, _id: user._id, role: user.role};
+    async createTokens(email) {
+        const payload = {email};
 
+        const accessToken = await this.jwtService.signAsync(
+            payload,
+            {
+                secret: process.env.JWT_ACCESS_SECRET,
+                expiresIn: '10m',
+            }
+        )
+
+        const refreshToken = await this.jwtService.signAsync(
+            payload,
+            {
+                secret: process.env.JWT_REFRESH_SECRET,
+                expiresIn: '60d',
+            }
+        )
+  
         return {
-            token: this.jwtService.sign(payload),
+            accessToken,
+            refreshToken
         }
     }
 
-    private async validateUser(userDto) {
-        const user = await this.userModel.find({email: userDto.email});
-        
+    private async extractUserInfo(user) {
+        return {
+            _id: user._id,
+            name: user.name,
+            role: user.role,
+            email: user.email,
+            favorites: user.favorites,
+            history: user.history,
+            isActivated: user.isActivated,
+            grades: user.grades,
+        }
     }
+    
 
-    async login(dto: LoginUserDto) {
+    async login(dto: LoginUserDto): Promise<any> {
         const user = await this.userModel.findOne({ email: dto.email });
 
         if (!user) {
@@ -73,7 +102,19 @@ export class AuthService {
             return new HttpException("Неверный логин или пароль", HttpStatus.BAD_REQUEST);
         }
 
-        return user;
+
+        const tokens = await this.createTokens(user.email);
+        const userDto = await this.extractUserInfo(user);
+   
+        const refresh = await this.tokenModel.findOne({userEmail: user.email});
+  
+        if(refresh) {
+            await this.tokenModel.updateOne({userEmail: dto.email, refreshToken: tokens.refreshToken});
+        } else {
+            await this.tokenModel.create({userEmail: dto.email, refreshToken: tokens.refreshToken});
+        }
+
+        return {user: userDto, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken}
     }
 
     async activate(activationLink: string) {
@@ -84,5 +125,18 @@ export class AuthService {
 
         await this.userModel.findOneAndUpdate({ activationLink }, { $set: { isActivated: true } });
         return { activate: true }
+    }
+
+    async refresh(refreshToken): Promise<any> {
+
+        const refresh = await this.tokenModel.findOne({refreshToken});
+        console.log(refresh);
+        if(!refresh) {
+            return new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+
+        const tokens = await this.createTokens(refresh.userEmail);
+        await this.tokenModel.findOneAndUpdate({refreshToken}, {refreshToken: tokens.refreshToken});
+        return tokens;
     }
 }

@@ -6,22 +6,21 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { Chat, ChatSchema } from '../schemas/chat.schema';
 import { JwtModule } from '@nestjs/jwt';
-
+import { ConfigModule, ConfigService } from '@nestjs/config/dist';
+import { JwtStrategy } from './jwt.strategy';
+import { Token, TokenSchema } from 'src/schemas/token.schema';
 @Module({
     imports: [
-        JwtModule.register({
-            secret: 'SECRET_KEY',
-            signOptions: {
-                expiresIn: '24h'
-            }
-        }),
+        ConfigModule,
+        JwtModule.register({}),
         MongooseModule.forFeature([
             { name: User.name, schema: UserSchema },
-            { name: Chat.name, schema: ChatSchema}
+            { name: Chat.name, schema: ChatSchema},
+            { name: Token.name, schema: TokenSchema},
         ]),
         MailModule,
     ],
     controllers: [AuthController],
-    providers: [AuthService]
+    providers: [AuthService, JwtStrategy]
 })
 export class AuthModule { }

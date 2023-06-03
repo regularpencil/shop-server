@@ -13,9 +13,11 @@ import { RecommendationModule } from './recommendation/recommendation.module';
 import { ScheduleModule } from '@nestjs/schedule/dist';
 import { ChatModule } from './chat/chat.module';
 import { ReviewModule } from './review/review.module';
+import { ConfigModule } from '@nestjs/config';
 //mongodb://localhost:27017/shop-database
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     MongooseModule.forRoot('mongodb+srv://hollow:hollow@shop-cluster.ijyqlyu.mongodb.net/?retryWrites=true&w=majority'),
     UserModule,
     MailModule,
