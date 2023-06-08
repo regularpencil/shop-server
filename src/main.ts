@@ -7,7 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {cors: true});
   app.use(cookieParser());
   app.enableCors({
-    origin: true,
+    origin: [
+      "https://shop-types.vercel.app",
+      "http://localhost:3000",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
     credentials: true,
