@@ -8,7 +8,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors({
     credentials: true,
-    origin: "https://shop-types.vercel.app/",
+    origin: "https://shop-types.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"]
   });
   await app.listen(4000, () => { console.log(`server port - 4000`) });
