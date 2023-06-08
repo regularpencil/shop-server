@@ -22,7 +22,7 @@
     ],
     "redirects": [
         {
-          "source": "https://shop-server-eight.vercel.app/api/users/activate/:activationLink*",
+          "source": "/api/users/activate/(.*)",
           "destination": "https://shop-types.vercel.app/authorization"
         }
     ]
