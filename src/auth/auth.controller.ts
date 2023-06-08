@@ -74,7 +74,7 @@ export class AuthController {
             httpOnly: true,
             secure: true,
         })
-
+        console.log(tokens);
         return {ok: 'ok'}
     }
 }
