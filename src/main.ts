@@ -4,15 +4,12 @@ import cors from "cors";
 import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {cors: true});
+  const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({
-    origin: [
-      "https://shop-types.vercel.app",
-      "http://localhost:3000",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+    origin: true,
+    methods: ["GET", "POST", "PUT", "DELETE"]
   });
   await app.listen(4000, () => { console.log(`server port - 4000`) });
 }
