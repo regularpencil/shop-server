@@ -28,17 +28,20 @@ export class AuthController {
         @Body() loginUserDto: LoginUserDto
     ) {
         const data = await this.authService.login(loginUserDto);
+   
         const {user, accessToken, refreshToken} = data;
         if(data) {
             response.cookie("refreshToken", refreshToken, {
                 maxAge: 60 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
                 secure: true,
+                sameSite: "none",
             })
             response.cookie("accessToken", accessToken, {
                 maxAge:  24 * 60 * 60 * 1000,
                 httpOnly: true,
                 secure: true,
+                sameSite: "none",
             })
             return user;
         }
@@ -68,13 +71,15 @@ export class AuthController {
             maxAge: 60 * 24 * 60 * 60 * 1000,
             httpOnly: true,
             secure: true,
+            sameSite: "none",
         })
         res.cookie("accessToken", tokens.accessToken, {
             maxAge:  24 * 60 * 60 * 1000,
             httpOnly: true,
             secure: true,
+            sameSite: "none",
         })
-        console.log(tokens);
+
         return {ok: 'ok'}
     }
 }
