@@ -24,7 +24,6 @@ export class ChatController {
 
     @Put()
     checkMessages(@Body() checkMessagesDto) {
-        console.log( checkMessagesDto);
         return this.chatService.checkMessages( checkMessagesDto);
     }
 

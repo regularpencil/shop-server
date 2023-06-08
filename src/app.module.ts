@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { ImageModule } from './image/image.module';
 import { OrderModule } from './order/order.module';
-import { BadgeModule } from './badges/badges.module';
+import { ProductModule } from './products/products.module';
 import { StatisticModule } from './statistic/statistic.module';
 import { RecommendationModule } from './recommendation/recommendation.module';
 import { ScheduleModule } from '@nestjs/schedule/dist';
@@ -24,7 +24,7 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     AdminModule,
     ImageModule,
-    BadgeModule,
+    ProductModule,
     OrderModule,
     StatisticModule,
     RecommendationModule,

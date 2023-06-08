@@ -10,7 +10,6 @@ export class CategoryService {
     ) { }
 
     async createCategory(category: string) {
-        console.log(category);
         return await this.filterModel.create({category, filters: []});
     }
 

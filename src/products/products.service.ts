@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Product, ProductDocument } from '../schemas/product.schema';
 
 @Injectable()
-export class BadgeService {
+export class ProductService {
     constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) { }
 
     async getBadges() {

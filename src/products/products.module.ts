@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BadgeController } from './badges.controller';
-import { BadgeService } from './badges.service';
+import { ProductController } from './products.controller';
+import { ProductService } from './products.service';
 import { Product, ProductSchema } from '../schemas/product.schema';
 
 @Module({
@@ -10,7 +10,7 @@ import { Product, ProductSchema } from '../schemas/product.schema';
       { name: Product.name, schema: ProductSchema }
     ])
   ],
-  controllers: [BadgeController],
-  providers: [BadgeService]
+  controllers: [ProductController],
+  providers: [ProductService]
 })
-export class BadgeModule { }
+export class ProductModule { }

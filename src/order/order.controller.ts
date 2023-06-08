@@ -31,7 +31,6 @@ export class OrderController {
     @UseGuards(AuthGuard('jwt'))
     @Put('/cancel')
     cancelOrder(@Body() cancelOrderDto) {
-        console.log(cancelOrderDto);
         return this.orderService.cancelOrder(cancelOrderDto);
     }
 

@@ -45,7 +45,7 @@ export class AuthController {
     }
 
     @Get('/activate/:activationLink')
-    @Redirect("http://localhost:3000/authorization")
+    @Redirect(`${process.env.CLIENT_URL}/authorization`)
     async activate(@Param('activationLink') activationLink: string) {
         return await this.authService.activate(activationLink);
     }
@@ -62,7 +62,6 @@ export class AuthController {
         @Res({ passthrough: true }) res: Response,
     ) {
         const refreshToken = req.cookies.refreshToken;
-        console.log(refreshToken);
         const tokens = await this.authService.refresh(refreshToken);
 
         res.cookie("refreshToken", tokens.refreshToken, {

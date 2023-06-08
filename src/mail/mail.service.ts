@@ -22,7 +22,7 @@ export class MailService {
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to,
-            subject: "Активация аккаунта на " + process.env.API_URL,
+            subject: "Активация аккаунта на " + process.env.CLIENT_URL,
             text: '',
             html:
                 `
@@ -32,7 +32,6 @@ export class MailService {
             </div>
             `
         })
-        console.log("priv")
         return { priv: "chodel" };
     }
 }
