@@ -18,7 +18,7 @@ export class AuthController {
         const user = await this.authService.registration(registrationUserDto);
 
         if (user) {
-            return await this.mailService.sendActivationLink(user.email, `${process.env.API_URL}/users/activate/${user.activationLink}`);
+            return await this.mailService.sendActivationLink(user.email, `${process.env.API_URL}/auth/activate/${user.activationLink}`);
         }
     }
 
