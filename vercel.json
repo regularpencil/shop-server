@@ -22,8 +22,8 @@
     ],
     "redirects": [
         {
-          "source": "/https://shop-server-eight.vercel.app/api/users/activate/:activationLink*",
-          "destination": "/https://shop-types.vercel.app/authorization"
+          "source": "https://shop-server-eight.vercel.app/api/users/activate/:activationLink*",
+          "destination": "https://shop-types.vercel.app/authorization"
         }
     ]
 }
