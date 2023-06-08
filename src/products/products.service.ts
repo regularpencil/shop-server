@@ -12,6 +12,11 @@ export class ProductService {
         return badges;
     }
 
+    async getProductById(productId) {
+        const product =await this.productModel.findOne({_id: productId});
+        return product;
+    }
+
     async getPopularBadges() {
         const popularBadges = await this.productModel.find().sort({purchases: -1}).limit(10);
         return popularBadges;

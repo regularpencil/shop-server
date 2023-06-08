@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, Req, Res } from '@nestjs/common';
 import { ProductService } from './products.service';
 import { Response } from 'express';
 
@@ -9,6 +9,11 @@ export class ProductController {
     @Get()
     async getBadges(@Res({ passthrough: true }) response: Response) {
         return this.productService.getBadges();
+    }
+
+    @Get('/:productId')
+    async getProductById(@Param("productId") productId: string) {
+        return await this.productService.getProductById(productId);
     }
 
     @Get('/popular')
