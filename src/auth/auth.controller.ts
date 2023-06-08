@@ -45,7 +45,7 @@ export class AuthController {
     }
 
     @Get('/activate/:activationLink')
-    @Redirect(`${process.env.CLIENT_URL}/authorization`)
+    @Redirect(`https://shop-types.vercel.app/authorization`)
     async activate(@Param('activationLink') activationLink: string) {
         return await this.authService.activate(activationLink);
     }
