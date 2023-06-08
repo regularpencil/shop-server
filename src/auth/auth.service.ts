@@ -93,13 +93,13 @@ export class AuthService {
         const user = await this.userModel.findOne({ email: dto.email });
 
         if (!user) {
-            return new HttpException("Неверный логин или пароль", HttpStatus.BAD_REQUEST);
+            throw new HttpException("Неверный логин или пароль", HttpStatus.BAD_REQUEST);
         }
 
         const isPassEqual = await bcrypt.compare(dto.password, user.password);
 
         if (!isPassEqual) {
-            return new HttpException("Неверный логин или пароль", HttpStatus.BAD_REQUEST);
+            throw new HttpException("Неверный логин или пароль", HttpStatus.BAD_REQUEST);
         }
 
 
