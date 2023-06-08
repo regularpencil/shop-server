@@ -29,6 +29,9 @@ export class User {
     activationLink: string
 
     @Prop()
+    resetLink: string
+
+    @Prop()
     favorites: number[]
 
     @Prop()

@@ -3,8 +3,8 @@ import { MailService } from "../mail/mail.service";
 import { AuthService } from "./auth.service";
 import { LoginUserDto } from "./dto/login-user.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { AuthGuard } from "@nestjs/passport";
 import { Response } from "express";
+import uuid from 'uuid';
 
 @Controller('api/auth')
 export class AuthController {
@@ -49,17 +49,8 @@ export class AuthController {
 
     @Get('/activate/:activationLink')
     @Redirect("https://shop-types.vercel.app/authorization")
-    async activate(
-        @Param('activationLink') activationLink: string,
-        @Res({ passthrough: true }) response: Response
-    ) {
+    async activate(@Param('activationLink') activationLink: string) {
         return await this.authService.activate(activationLink);
-    }
-
-    @UseGuards(AuthGuard('jwt'))
-    @Get('test')
-    async test () {
-        return {priv:"chodel"}
     }
 
     @Get('/refresh')
@@ -85,4 +76,24 @@ export class AuthController {
 
         return {ok: 'ok'}
     }
+
+    @Put('/reset/:userEmail')
+    async sendResetLink(@Param('userEmail') userEmail: string) {
+        const resetLink = await this.authService.sendResetLink(userEmail);
+        return await this.mailService.sendResetLink(userEmail, `${process.env.API_URL}/auth/reset/${resetLink}`);
+    }
+    
+    @Get('/reset/:resetLink')
+    async reset(
+        @Res({ passthrough: true }) response: Response,
+        @Param('resetLink') resetLink: string,
+    ) {
+        response.redirect(`${process.env.CLIENT_URL}/reset/${resetLink}`);
+    }
+
+    @Post('/reset')
+    async resetPassword(@Body() resetPasswordDto) {
+        return await this.authService.resetPassword(resetPasswordDto);
+    }
+    
 }

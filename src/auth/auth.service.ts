@@ -6,7 +6,7 @@ import { Model } from "mongoose";
 import { LoginUserDto } from "./dto/login-user.dto";
 import { Chat, ChatDocument } from "../schemas/chat.schema";
 import { JwtService } from "@nestjs/jwt/dist";
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import * as uuid from 'uuid';
 import { CreateUserDto } from "./dto/create-user.dto";
 import { Token, TokenDocument } from "../schemas/token.schema";
@@ -57,7 +57,7 @@ export class AuthService {
             payload,
             {
                 secret: process.env.JWT_ACCESS_SECRET,
-                expiresIn: '10m',
+                expiresIn: '15m',
             }
         )
 
@@ -137,5 +137,22 @@ export class AuthService {
         const tokens = await this.createTokens(refresh.userEmail);
         await this.tokenModel.findOneAndUpdate({refreshToken}, {refreshToken: tokens.refreshToken});
         return tokens;
+    }
+
+    async sendResetLink(email) {
+        const resetLink = uuid.v4();
+        await this.userModel.findOneAndUpdate({email}, {$set:{resetLink}})
+        return resetLink;
+    }
+
+    async resetPassword(dto) {
+        const user = await this.userModel.findOne({resetLink: dto.resetLink});
+        
+        if(user) {
+            const hashPassword = await bcrypt.hash(dto.newPassword, 3);
+            return await this.userModel.findOneAndUpdate({email: dto.userEmail}, {$set:{password: hashPassword}});
+        } else {
+            throw new HttpException("Невалидная ссылка восстановления", 402);
+        }
     }
 }

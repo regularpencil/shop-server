@@ -34,4 +34,21 @@ export class MailService {
         })
         return { priv: "chodel" };
     }
+
+    async sendResetLink(to, link) {
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to,
+            subject: "Восстановление пароля на " + process.env.CLIENT_URL,
+            text: '',
+            html:
+                `
+            <div>
+                <h1>Для восстановления пароля перейдите по ссылке:</h1>
+                <a href="${link}">${link}</a>
+            </div>
+            `
+        })
+        return { priv: "chodel" };
+    }
 }
