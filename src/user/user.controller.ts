@@ -20,7 +20,7 @@ export class UserController {
 
     @Put('/favorites/add')
     addFavoriteBadge(@Body() putFavoriteDto: PutFavoriteDto): Promise<number[]> {
-        return this.userService.addFavoriteBadge(putFavoriteDto);
+        return this.userService.addFavoriteProduct(putFavoriteDto);
     }
 
     @Put('/favorites/remove')

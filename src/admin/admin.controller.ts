@@ -23,20 +23,20 @@ export class AdminController {
     @Post('/badge')
     @UseInterceptors(FileInterceptor('media'))
     async createBadge(@UploadedFile() mediaFile: Express.Multer.File, @Query() queryDto: QueryDto) {
-        return this.adminService.createBadge(mediaFile, queryDto);
+        return this.adminService.createProduct(mediaFile, queryDto);
     }
 
     @UseGuards(AuthGuard('jwt'))
     @Delete('/badge/:id')
     async removeBadge(@Param('id') id: string) {
-        return this.adminService.removeBadge(id);
+        return this.adminService.removeProduct(id);
     }
 
     @UseGuards(AuthGuard('jwt'))
     @Put('/badge/:id')
     @UseInterceptors(FileInterceptor('media'))
     async editBadge(@Param('id') id: string, @UploadedFile() mediaFile: Express.Multer.File, @Query() queryDto: QueryDto) {
-        return this.adminService.editBadge(id, queryDto, mediaFile);
+        return this.adminService.editProduct(id, queryDto, mediaFile);
     }
 
     //////////////////////////////////// filters

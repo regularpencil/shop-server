@@ -12,6 +12,7 @@ export class StatisticService {
      private getDaysPerMonth = (year: number, month:number) => {
         return new Date(year, month, 0).getDate();
     };
+
     private rand(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
@@ -31,13 +32,29 @@ export class StatisticService {
                     $set: {
                         sum: year.sum + dto.orderCost,
                         months: updatedMonths, 
+                    },
+                    $inc: {
+                        ordersNumber: 1,
                     }
                 }
             );
         } else {
             const months = [];
             let days = [];
-            const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+            const monthNames = [
+                'Январь',
+                'Февраль',
+                'Март',
+                'Апрель',
+                'Май',
+                'Июнь',
+                'Июль',
+                'Август',
+                'Сентябрь',
+                'Октябрь',
+                'Ноябрь',
+                'Декабрь'
+            ]
 
             for(let i = 0; i < 12; i++) {
                 let daysPerMonth = this.getDaysPerMonth(date.getFullYear(), i);
@@ -49,11 +66,9 @@ export class StatisticService {
             }
             months[date.getMonth()].days[date.getDate() - 1].sum += dto.orderCost;
             months[date.getMonth()].days[date.getDate() - 1].ordersNumber += 1;
-            /*const mya = await this.statisticModel.findOne({year: 2024});
-            const month = mya.months.find(month => month.monthNumber === date.getMonth() + 1);
-            console.log(month.days.sort((a, b) => a.dayNumber > b.dayNumber ? 1 : -1))*/
+           
 
-            await this.statisticModel.create({year: date.getFullYear(), months, sum: dto.orderCost});
+            await this.statisticModel.create({year: date.getFullYear(), months, sum: dto.orderCost, ordersNumber: 0});
         }
     }
 

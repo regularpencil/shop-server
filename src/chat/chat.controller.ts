@@ -14,13 +14,11 @@ export class ChatController {
 
     @Post()
     sendMessage(@Body() sendMessageDto) {
-        console.log(sendMessageDto);
         return this.chatService.sendMessage(sendMessageDto);
     }
 
     @Post('/order')
     sendOrderMessage(@Body() sendMessageDto) {
-        console.log(sendMessageDto);
         return this.chatService.sendOrderMessage(sendMessageDto);
     }
 

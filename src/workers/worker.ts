@@ -2,9 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { workerData } from 'worker_threads';
 import { AppModule } from '../app.module';
 
-import * as math from "mathjs";
-import * as fs from "fs"
-import * as path from 'path';
+import {multiply, transpose, sqrt, abs} from "mathjs";
+import fs from "fs"
+import path from 'path';
 
 function reduceMatrices(matrix, rank) {
   const R = JSON.parse(JSON.stringify(matrix));
@@ -95,7 +95,6 @@ function createMatrix(goods, users) {
 
 function calculateUV(R) {
    
-
   const nonZeroIndexes = [];
   const zeroIndexes = []
   const nonZero = calculateNonZero(R, nonZeroIndexes, zeroIndexes);
@@ -120,23 +119,23 @@ function calculateUV(R) {
       let ij = nonZeroIndexes[choice];
       for(let k = 0; k < rank; k++) {
         reducedU[ij[0]][k] = reducedU[ij[0]][k] + step * (
-            ((R[ij[0]][ij[1]] - math.multiply(reducedU[ij[0]], math.transpose(reducedV)[ij[1]])) * reducedV[k][ij[1]]) - lambda_reg * reducedU[ij[0]][k]
+            ((R[ij[0]][ij[1]] - multiply(reducedU[ij[0]], transpose(reducedV)[ij[1]])) * reducedV[k][ij[1]]) - lambda_reg * reducedU[ij[0]][k]
         )
         
         reducedV[k][ij[1]] = reducedV[k][ij[1]] + step * (
-            ((R[ij[0]][ij[1]] - math.multiply(reducedU[ij[0]], math.transpose(reducedV)[ij[1]])) * reducedU[ij[0]][k]) - lambda_reg * reducedV[k][ij[1]]
+            ((R[ij[0]][ij[1]] - multiply(reducedU[ij[0]], transpose(reducedV)[ij[1]])) * reducedU[ij[0]][k]) - lambda_reg * reducedV[k][ij[1]]
         )
       }
       
       for(let l = 0; l < nonZeroIndexes.length; l++) {
           const i = nonZeroIndexes[l][0];
           const j = nonZeroIndexes[l][1];
-          rmse += Math.pow(R[i][j] - math.multiply(reducedU[i], math.transpose(reducedV)[j]), 2);
+          rmse += Math.pow(R[i][j] - multiply(reducedU[i], transpose(reducedV)[j]), 2);
       }
       rmse /= nonZero;
-      rmse = math.sqrt(rmse);
+      rmse = sqrt(rmse);
       iters++;
-  } while(math.abs(oldRmse - rmse) > 0.000001 && rmse > 0.5 && iters < 100000)
+  } while(abs(oldRmse - rmse) > 0.000001 && rmse > 0.5 && iters < 100000)
   const filePath = path.join(process.cwd(), 'st.json');
   fs.writeFileSync(filePath, JSON.stringify({U: reducedU, V: reducedV}));
 }

@@ -25,7 +25,7 @@ export class AuthService {
         const candidate = await this.userModel.findOne({ email: createUserDto.email });
 
         if (candidate) {
-            throw new HttpException("Пользователь с таким email уже существует", 460);
+            throw new HttpException("Пользователь по данной электронной почте уже зарегистрирован", 460);
         }
 
         const hashPassword = await bcrypt.hash(createUserDto.password, 3);
@@ -130,7 +130,6 @@ export class AuthService {
     async refresh(refreshToken): Promise<any> {
 
         const refresh = await this.tokenModel.findOne({refreshToken});
-        console.log(refresh);
         if(!refresh) {
             return new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
         }

@@ -51,7 +51,7 @@ export class UserService {
         return { activate: true }
     }
 
-    async addFavoriteBadge(putFavoriteDto: PutFavoriteDto): Promise<number[]> {
+    async addFavoriteProduct(putFavoriteDto: PutFavoriteDto): Promise<number[]> {
         const user = await this.userModel.findOne({ email: putFavoriteDto.email });
         const newFavorites = [...user.favorites, putFavoriteDto.badgeId];
         const userGrades = user.grades;
@@ -79,7 +79,6 @@ export class UserService {
     }
 
     async updateHistory(dto: UpdateHistoryDto) {
-        console.log(dto);
         await this.badgeModel.findOneAndUpdate({_id: dto.badgeId}, {$inc:{views: 1}})
         const user = await this.userModel.findOne({ email: dto.email });
         const newHistoryBadge = user.history.find(id => id == dto.badgeId);

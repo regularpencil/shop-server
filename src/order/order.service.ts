@@ -57,10 +57,16 @@ export class OrderService {
         return orderId;
     }
 
-    async cancelOrder(dto) {
-        await this.userModel.findOneAndUpdate({email: dto.email}, {$pull: {orders: dto.orderId}});
-        await this.orderModel.findOneAndUpdate({_id: dto.orderId}, {$set:{status: 'Отменён'}});
-        return dto.orderId;
+    async cancelOrder(cancelOrderDto) {
+        await this.userModel.findOneAndUpdate(
+            {email: cancelOrderDto.email},
+            {$pull: {orders: cancelOrderDto.orderId}}
+        );
+        await this.orderModel.findOneAndUpdate(
+            {_id: cancelOrderDto.orderId},
+            {$set:{status: 'Отменён'}}
+        );
+        return cancelOrderDto.orderId;
     }
 
     async changeOrderStatus(dto) {
