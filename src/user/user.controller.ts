@@ -12,12 +12,6 @@ export class UserController {
         private userService: UserService,
     ) { }
 
-    @Get('/activate/:activationLink')
-    @Redirect("http://localhost:3000/authorization")
-    async activate(@Param('activationLink') activationLink: string) {
-        return await this.userService.activate(activationLink);
-    }
-
     @Put('/favorites/add')
     addFavoriteBadge(@Body() putFavoriteDto: PutFavoriteDto): Promise<number[]> {
         return this.userService.addFavoriteProduct(putFavoriteDto);
