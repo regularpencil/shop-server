@@ -23,7 +23,7 @@
     ],
     "redirects": [
         {
-          "source": "/api/users/activate",
+          "source": "/api/users/activated/(.*)",
           "destination": "https://shop-types.vercel.app/authorization"
         }
     ]
