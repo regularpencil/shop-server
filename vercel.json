@@ -18,6 +18,7 @@
             ]
         }
     ],
+    
     "headers": [
         {
           "source": "https://shop-server-eight.vercel.app/api/(.*)",
