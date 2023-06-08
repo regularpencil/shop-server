@@ -52,7 +52,7 @@ export class AuthController {
         @Param('activationLink') activationLink: string,
         @Res({ passthrough: true }) response: Response
     ) {
-        response.redirect("https://shop-server-eight.vercel.app/api/auth/activated");
+        response.redirect("https://shop-server-eight.vercel.app/api/auth/activated/1asd123");
         return await this.authService.activate(activationLink);
     }
 
