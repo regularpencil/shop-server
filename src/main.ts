@@ -12,7 +12,6 @@ async function bootstrap() {
       "http://localhost:3000",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
     credentials: true,
   });
   await app.listen(4000, () => { console.log(`server port - 4000`) });
