@@ -16,12 +16,12 @@ export class ProductController {
         return await this.productService.getProductById(productId);
     }
 
-    @Get('/popular')
+    @Get('/popular/s')
     async getPopularBadges() {
         return this.productService.getPopularBadges();
     }
 
-    @Get('/viewed')
+    @Get('/viewed/s')
     async getMostViewedBadges() {
         return this.productService.getMostViewedBadges();
     }
