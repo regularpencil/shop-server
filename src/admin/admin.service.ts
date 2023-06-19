@@ -6,7 +6,8 @@ import { City, CityDocument } from "../schemas/city.schema";
 import { Product, ProductDocument } from "../schemas/product.schema";
 import path from "path";
 
-const uploadFolder = path.join(process.cwd(), 'uploads/images');;
+const uploadFolder = path.join(process.cwd() + '/src', 'uploads');
+const uploadImagesFolder = uploadFolder + '/images';
 @Injectable()
 export class AdminService {
     constructor(
@@ -15,9 +16,9 @@ export class AdminService {
     ) { }
 
     async createProduct(mediaFile: Express.Multer.File, queryDto) {
-        await ensureDir(uploadFolder);
-        await writeFile(`${uploadFolder}/${mediaFile.originalname}`, mediaFile.buffer)
-        const imagePath = `uploads/images/${mediaFile.originalname}`;
+        await ensureDir(uploadImagesFolder);
+        await writeFile(`${uploadImagesFolder}/${mediaFile.originalname}`, mediaFile.buffer)
+        const imagePath = `src/uploads/images/${mediaFile.originalname}`;
         const badge = { ...queryDto, imagePath, views: 0, purchases: 0 };
         badge.parameters = badge.parameters.map(item => JSON.parse(item));
 
@@ -32,14 +33,13 @@ export class AdminService {
     }
 
     async editProduct(id: string, dto, mediaFile) {
-
         const badge = await this.productModel.findOne({_id: id});
         let imagePath = badge.imagePath;
         if(mediaFile) {
-            await ensureDir(uploadFolder);
+            await ensureDir(uploadImagesFolder);
             await remove(badge.imagePath);
-            await writeFile(`${uploadFolder}/${mediaFile.originalname}`, mediaFile.buffer)
-            imagePath = `uploads/images/${mediaFile.originalname}`;
+            await writeFile(`${uploadImagesFolder}/${mediaFile.originalname}`, mediaFile.buffer)
+            imagePath = `src/uploads/images/${mediaFile.originalname}`;
         }
         dto.parameters = dto.parameters.map((item:any) => JSON.parse(item));
    
