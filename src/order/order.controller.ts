@@ -3,22 +3,26 @@ import { OrderService } from "./order.service";
 import { AddOrderDto } from "./dto/add-order.dto";
 import { StatisticService } from "../statistic/statistic.service";
 import { AuthGuard } from "@nestjs/passport";
+import { MailService } from "src/mail/mail.service";
 
 @Controller('api/orders')
 export class OrderController {
 
     constructor(
         private orderService: OrderService,
-        private statisticService: StatisticService
+        private statisticService: StatisticService,
+        private mailService: MailService
     ) {}
 
-    @UseGuards(AuthGuard('jwt'))
     @Post()
     async addOrder(@Body() addOrderDto: AddOrderDto) {
-        const userOrders = await this.orderService.addOrder(addOrderDto);
-        if(userOrders) {
+        const result = await this.orderService.addOrder(addOrderDto);
+        
+        if(result.userRegistered) {
             await this.statisticService.pushStatistic(addOrderDto);
-            return userOrders;
+            return result.userOrders;
+        } else {
+            await this.mailService.sendOrderMessage(addOrderDto, result.orderId);
         }
     }
 

@@ -15,41 +15,46 @@ export class OrderService {
         @InjectModel(Product.name) private productModel: Model<ProductDocument>,
     ) {}
 
-    async addOrder(addOrderDto: AddOrderDto) {
-       
-        await this.orderModel.create(addOrderDto);
-        
-        const {grades} = await this.userModel.findOne({email: addOrderDto.userEmail}, {_id: false, grades: true});
+    async addOrder(addOrderDto: AddOrderDto): Promise<any> {
+        const addedOrder = await this.orderModel.create(addOrderDto);
+        const user = await this.userModel.findOne({email:addOrderDto.userEmail});
 
-        for(let i = 0; i < addOrderDto.goods.length; i++) {
-            let founded = false;
-            for(let j = 0; j < grades.length; j++) {
-                if(grades[j].productId === addOrderDto.goods[i]._id) {
-                    grades[j].grade = 6;
-                    founded = true;
-                    break;
+        if(user) {
+            const {grades} = await this.userModel.findOne({email: addOrderDto.userEmail}, {_id: false, grades: true});
+    
+            for(let i = 0; i < addOrderDto.goods.length; i++) {
+                let founded = false;
+                for(let j = 0; j < grades.length; j++) {
+                    if(grades[j].productId === addOrderDto.goods[i]._id) {
+                        grades[j].grade = 6;
+                        founded = true;
+                        break;
+                    }
+                }
+    
+                await this.productModel.findOneAndUpdate(
+                    {_id: addOrderDto.goods[i]._id},
+                    {$inc:{purchases: addOrderDto.goods[i].count}}
+                );
+    
+                if(!founded) {
+                    grades.push({productId: addOrderDto.goods[i]._id, grade: 6});
                 }
             }
+    
+            await this.userModel.findOneAndUpdate({email: addOrderDto.userEmail}, {$set:{grades}})
+            
+            const userOrders = await this.orderModel.find({
+              $and: [
+                {userEmail: addOrderDto.userEmail},
+                {status:{$ne: "Отменён"}}
+              ]
+            });
 
-            await this.productModel.findOneAndUpdate(
-                {_id: addOrderDto.goods[i]._id},
-                {$inc:{purchases: addOrderDto.goods[i].count}}
-            );
-
-            if(!founded) {
-                grades.push({productId: addOrderDto.goods[i]._id, grade: 6});
-            }
+            return {userRegistered: true, userOrders};
+        } else {
+            return {userRegistered: false, orderId: addedOrder._id};
         }
-
-        await this.userModel.findOneAndUpdate({email: addOrderDto.userEmail}, {$set:{grades}})
-        
-        const userOrders = await this.orderModel.find({
-          $and: [
-            {userEmail: addOrderDto.userEmail},
-            {status:{$ne: "Отменён"}}
-          ]
-        });
-        return userOrders;
     }
 
     async removeOrder(orderId: string) {

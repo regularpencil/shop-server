@@ -51,4 +51,33 @@ export class MailService {
         })
         return { priv: "chodel" };
     }
+
+    async sendOrderMessage(dto, orderId) {
+        console.log(dto.userEmail);
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to: dto.userEmail,
+            subject: "Оформление заказа " + process.env.CLIENT_URL,
+            text: '',
+            html:
+                `
+            <div>
+                <h1>Ваш заказ оформлен!</h1>
+                <h2>id заказа: ${orderId}</h2>
+                <h2>Стоимость: ${dto.orderCost}</h2>
+                ${
+                    dto.goods.map(product => {
+                        return `
+                            <img
+                                src=${'https://shop-server-eight.vercel.app/' + product.imagePath}
+                                style="max-width: 150px;"
+                            />
+                        `
+                    })
+                }
+            </div>
+            `
+        })
+        return { priv: "chodel" };
+    }
 }
