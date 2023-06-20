@@ -23,7 +23,8 @@ export class RecommendationService {
       const goods = await this.badgeModel.find({}, {_id: true});
       const users = await this.userModel.find({role: 'user'}, {grades: true});
       const data = JSON.stringify({goods, users});
-
+      console.log(__dirname);
+      console.log(workerThreadFilePath);
       new Worker(workerThreadFilePath, {workerData: data});
     }
 
