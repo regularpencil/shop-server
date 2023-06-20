@@ -102,7 +102,7 @@ export class AuthService {
             throw new HttpException("Неверный логин или пароль", HttpStatus.BAD_REQUEST);
         }
 
-
+        console.log("asdasdasdasdasd");
         const tokens = await this.createTokens(user.email);
         const userDto = await this.extractUserInfo(user);
    
