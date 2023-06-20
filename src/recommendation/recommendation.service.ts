@@ -25,7 +25,7 @@ export class RecommendationService {
       const data = JSON.stringify({goods, users});
       console.log(__filename);
       console.log(workerThreadFilePath);
-      new Worker('../workers/worker.js', {workerData: data});
+      new Worker('var/task/src/workers/worker.js', {workerData: data});
     }
 
     async getRecomendation(userEmail: string) {
