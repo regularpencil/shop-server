@@ -143,7 +143,7 @@ function calculateUV(R) {
 async function run() {
   const app = await NestFactory.createApplicationContext(AppModule);
   const {users, goods} = JSON.parse(workerData);
-
+  console.log("WORKER");
   const matrix = (createMatrix(goods, users));
   calculateUV(matrix);
   app.close();

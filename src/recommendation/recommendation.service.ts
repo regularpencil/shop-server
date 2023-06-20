@@ -19,6 +19,7 @@ export class RecommendationService {
 
     @Cron(CronExpression.EVERY_10_SECONDS)
     async calcUV() {
+      console.log("RECOMEND");
       const goods = await this.badgeModel.find({}, {_id: true});
       const users = await this.userModel.find({role: 'user'}, {grades: true});
       const data = JSON.stringify({goods, users});
