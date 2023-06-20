@@ -7,6 +7,7 @@ import { Model } from "mongoose";
 import { User, UserDocument } from "../schemas/user.schema";
 import * as fs from "fs";
 import * as math from "mathjs";
+import * as path from "path";
 import { Product, ProductDocument } from "../schemas/product.schema";
 @Injectable()
 export class RecommendationService {
@@ -16,7 +17,7 @@ export class RecommendationService {
 
     ) {}
 
-    @Cron(CronExpression.EVERY_10_SECONDS)
+    @Cron(CronExpression.EVERY_10_HOURS)
     async calcUV() {
       const goods = await this.badgeModel.find({}, {_id: true});
       const users = await this.userModel.find({role: 'user'}, {grades: true});
