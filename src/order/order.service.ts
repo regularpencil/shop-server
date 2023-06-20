@@ -34,8 +34,10 @@ export class OrderService {
     
                 await this.productModel.findOneAndUpdate(
                     {_id: addOrderDto.goods[i]._id},
-                    {$inc:{purchases: addOrderDto.goods[i].count}},
-                    {$dec:{stock: -addOrderDto.goods[i].count}}
+                    {$inc:{
+                        purchases: addOrderDto.goods[i].count,
+                        stock: -addOrderDto.goods[i].count
+                    }}
                 );
     
                 if(!founded) {
