@@ -23,8 +23,10 @@ export class RecommendationService {
       const goods = await this.badgeModel.find({}, {_id: true});
       const users = await this.userModel.find({role: 'user'}, {grades: true});
       const data = JSON.stringify({goods, users});
-      console.log(__filename);
-      const f = './src/workers/worker.js';
+      const  myObject = new ActiveXObject("Scripting.FileSystemObject");
+      const f = './src/workers';
+      myObject.FolderExists(f);
+
       new Worker(f, {workerData: data});
     }
 
