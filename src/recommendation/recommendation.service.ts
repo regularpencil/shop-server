@@ -7,7 +7,6 @@ import { Model } from "mongoose";
 import { User, UserDocument } from "../schemas/user.schema";
 import * as fs from "fs";
 import * as math from "mathjs";
-import * as path from "path";
 import { Product, ProductDocument } from "../schemas/product.schema";
 @Injectable()
 export class RecommendationService {
@@ -17,7 +16,7 @@ export class RecommendationService {
 
     ) {}
 
-    @Cron(CronExpression.EVERY_10_MINUTES)
+    @Cron(CronExpression.EVERY_10_SECONDS)
     async calcUV() {
       const goods = await this.badgeModel.find({}, {_id: true});
       const users = await this.userModel.find({role: 'user'}, {grades: true});
@@ -27,7 +26,7 @@ export class RecommendationService {
     }
 
     async getRecomendation(userEmail: string) {
-      const fileDirectory = path.join(process.cwd(), 'st.json');
+      const fileDirectory = process.cwd()
       let {U, V} = JSON.parse(String(fs.readFileSync(fileDirectory)));
       const users = await this.userModel.find({role: 'user'});
       let userIndex = -1;

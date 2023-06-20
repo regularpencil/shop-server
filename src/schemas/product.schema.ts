@@ -29,6 +29,9 @@ export class Product {
     purchases: number
 
     @Prop()
+    stock: number
+
+    @Prop()
     description: string
 
     @Prop({type: Array<ProductParametersType>})

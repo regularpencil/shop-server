@@ -23,4 +23,5 @@ export class AddOrderDto {
     isDelivery: boolean
     deliveryData?: IDeliveryData
     pickAddress?: string
+    stock: number
 }

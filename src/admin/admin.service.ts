@@ -51,6 +51,7 @@ export class AdminService {
                     price: dto.price,
                     description: dto.description,
                     parameters: dto.parameters,
+                    stock: dto.stock,
                     imagePath,
                 }
             }
