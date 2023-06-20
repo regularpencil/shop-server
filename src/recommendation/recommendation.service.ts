@@ -17,17 +17,13 @@ export class RecommendationService {
 
     ) {}
 
-    @Cron(CronExpression.EVERY_10_SECONDS)
+    @Cron(CronExpression.EVERY_10_HOURS)
     async calcUV() {
-      console.log("RECOMEND");
       const goods = await this.badgeModel.find({}, {_id: true});
       const users = await this.userModel.find({role: 'user'}, {grades: true});
       const data = JSON.stringify({goods, users});
-      const  myObject = new ActiveXObject("Scripting.FileSystemObject");
-      const f = './src/workers';
-      myObject.FolderExists(f);
 
-      new Worker(f, {workerData: data});
+      new Worker(workerThreadFilePath, {workerData: data});
     }
 
     async getRecomendation(userEmail: string) {

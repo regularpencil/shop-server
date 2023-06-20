@@ -1,3 +1,3 @@
-const workerThreadFilePath = '/var/task/workers/worker.js';
+const workerThreadFilePath = __dirname + '/worker.js';
 
 export default workerThreadFilePath;
