@@ -62,13 +62,4 @@ export class AdminService {
     async getCities() {
         return this.cityModel.find();
     }
-
-    async mya() {
-        const products = await this.productModel.find();
-        products.forEach(async (product) => {
-            const newImagePath = product.imagePath.replace('src/', '');
-            await this.productModel.findOneAndUpdate({_id: product._id}, {$set:{imagePath: newImagePath}});
-        })
-        return {ok: 'ok'};
-    }
 }
