@@ -108,7 +108,7 @@ function calculateUV(R) {
   const max = nonZeroIndexes.length;
   const lambda_reg = 0.02;
   let step = 0.01;
-  let rmse = 0;
+  let rmse: any = 0;
   let oldRmse = 0;
   let iters = 0;
   do{
