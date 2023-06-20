@@ -24,8 +24,8 @@ export class RecommendationService {
       const users = await this.userModel.find({role: 'user'}, {grades: true});
       const data = JSON.stringify({goods, users});
       console.log(__filename);
-      console.log(workerThreadFilePath);
-      new Worker('var/task/src/workers/worker.js', {workerData: data});
+      const f = './src/workers/worker.js';
+      new Worker(f, {workerData: data});
     }
 
     async getRecomendation(userEmail: string) {
