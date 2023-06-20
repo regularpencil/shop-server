@@ -27,7 +27,7 @@ export class RecommendationService {
     }
 
     async getRecomendation(userEmail: string) {
-      const fileDirectory = process.cwd()
+      const fileDirectory = path.join(process.cwd(), 'st.json');
       let {U, V} = JSON.parse(String(fs.readFileSync(fileDirectory)));
       const users = await this.userModel.find({role: 'user'});
       let userIndex = -1;
